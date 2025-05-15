@@ -3,6 +3,8 @@ const app = express()
 
 app.use(express.json())
 
+const now = new Date();
+
 let directory = [
     { 
         "id": "1",
@@ -32,6 +34,12 @@ app.get('/', (request, response) => {
 
 app.get('/api/persons', (request, response) => {
     response.json(directory)
+})
+
+app.get('/info', (request, response) => {
+    const size = directory.length
+    response.send(`<p>Phonebook has info for ${size} people </p><p>${now}</p>`)
+    response.send()
 })
 
 app.get('/api/notes/:id', (request, response) => {
