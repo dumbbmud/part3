@@ -42,10 +42,10 @@ app.get('/info', (request, response) => {
     response.send()
 })
 
-app.get('/api/notes/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response) => {
     const id = request.params.id
-    const note = notes.find(note => note.id === id)
-    note ? response.json(note) : response.status(404).end()
+    const contact = directory.find(dir => dir.id === id)
+    contact ? response.json(contact) : response.status(404).end()
 })
 
 app.delete('/api/notes/:id', (request, response) => {
@@ -53,6 +53,7 @@ app.delete('/api/notes/:id', (request, response) => {
     notes = notes.filter(note => note.id !== id)
     response.status(204).end()
 })
+
 
 const generateID = () => {
     const maxID = notes.length > 0
