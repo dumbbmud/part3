@@ -48,9 +48,9 @@ app.get('/api/persons/:id', (request, response) => {
     contact ? response.json(contact) : response.status(404).end()
 })
 
-app.delete('/api/notes/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response) => {
     const id = request.params.id
-    notes = notes.filter(note => note.id !== id)
+    directory = directory.filter(dir => dir.id !== id)
     response.status(204).end()
 })
 
