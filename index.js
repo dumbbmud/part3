@@ -56,31 +56,33 @@ app.delete('/api/persons/:id', (request, response) => {
 
 
 const generateID = () => {
-    const maxID = notes.length > 0
-    ? Math.max(...notes.map(n => Number(n.id)))
-    : 0
-    return String(maxID + 1)
+    const ID = Math.floor(Math.random() * 1000)
+    return ID
+    // const maxID = notes.length > 0
+    // ? Math.max(...notes.map(n => Number(n.id)))
+    // : 0
+    // return String(maxID + 1)
 }
 
-app.post('/api/notes', (request, response) => {
+app.post('/api/persons', (request, response) => {
 
     const body = request.body
     
-    if (!body.content){
+    if (!body.name || !body.number){
         return response.status(400).json({
-            error: 'content is missing'
+            error: 'some info is missing'
         })
     }
 
-    const note = {
-        content: body.content,
-        important: body.important || false,
-        id: generateID()
+    const contact = {
+        id: generateID(),
+        name: body.name,
+        number: body.number
     }
 
-    notes = notes.concat(note)
+    directory = directory.concat(contact)
 
-    response.json(note)
+    response.json(contact)
 })
 
 const PORT = 3001
