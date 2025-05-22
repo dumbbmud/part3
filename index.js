@@ -74,6 +74,12 @@ app.post('/api/persons', (request, response) => {
         })
     }
 
+    const identical = directory.find(contact => contact.name === body.name)
+    if (identical) {return response.status(400).json({
+        error: 'name must be unique'
+    })} 
+    
+
     const contact = {
         id: generateID(),
         name: body.name,
