@@ -1,7 +1,6 @@
 const express = require('express')
 const app = express()
-
-app.use(express.json())
+let morgan = require('morgan')
 
 const now = new Date();
 
@@ -27,6 +26,34 @@ let directory = [
         "number": "39-23-6423122"
       }
   ]
+
+  morgan.token('message', function (req, res) { return JSON.stringify(req.body)})
+
+app.use(express.json())
+app.use(morgan(function (tokens, req, res) {
+    return [
+      tokens.method(req, res),
+      tokens.url(req, res),
+      tokens.status(req, res),
+      tokens.res(req, res, 'content-length'), '-',
+      tokens['response-time'](req, res), 'ms',
+      tokens.method(req, res) === "POST" ? tokens.message(req, res) : ''
+    ].join(' ')
+  }))
+
+// const post = (tokens, req, res) => {
+// return (
+//     [
+//         tokens.method(req, res),
+//         tokens.url(req, res),
+//         tokens.status(req, res),
+//         tokens.res(req, res, 'content-length'), '-',
+//         tokens['response-time'](req, res), 'ms'
+
+//     ]
+// )
+// }
+
 
 app.get('/', (request, response) => {
     response.send('<h1>Phone Directory </h1>')
